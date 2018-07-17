@@ -1,6 +1,7 @@
 angular.module('app').service('todoStorage', function ($q) {
     var _this = this;
     this.data = [];
+	this.percentage = 0;
 
     this.findAll = function(callback) {
         chrome.storage.sync.get('todo', function(keys) {
@@ -9,7 +10,6 @@ angular.module('app').service('todoStorage', function ($q) {
                 for (var i=0; i<_this.data.length; i++) {
                     _this.data[i]['id'] = i + 1;
                 }
-                console.log(_this.data);
                 callback(_this.data);
             }
         });
@@ -26,12 +26,30 @@ angular.module('app').service('todoStorage', function ($q) {
         var todo = {
             id: id,
             content: newContent,
-            completed: false,
+            found: false,
+			count: 0,
             createdAt: new Date()
         };
         this.data.push(todo);
         this.sync();
     }
+	
+	this.find = function (newContent) {
+		var n = 0;
+        for (i=0; i < this.data.length; i++){
+			if (newContent.includes(this.data[i].content)) {
+				var re = new RegExp(this.data[i].content, 'g');
+				//alert("Item : " + this.data[i].content + " is present? : " + newContent.includes(this.data[i].content));
+				this.data[i].count = (newContent.match(re) || []).length;
+				this.data[i].found = true;
+				n++;
+			}
+		}
+		alert((this.percentage = (n/this.data.length) * 100) + "% of a match.");
+        this.sync();
+    }
+	
+	
 
     this.remove = function(todo) {
         this.data.splice(this.data.indexOf(todo), 1);

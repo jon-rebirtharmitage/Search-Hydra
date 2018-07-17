@@ -12,6 +12,13 @@ body {
 
 .todo-item .todo-content {
     font-weight: bold;
+	margin-left: 10px;
+	float:right;
+}
+
+.todo-content-big {
+	font-size: 1.5em;
+	margin-right: 10px;
 }
 .todo-item.completed .todo-content {
     color:darkgray;

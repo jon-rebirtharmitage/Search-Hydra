@@ -1,16 +1,15 @@
 'use strict';
 
 angular.module('app').controller('todoCtrl', function ($scope, todoStorage) {
-	$scope.selectedText = "";
+
     $scope.todoStorage = todoStorage;
+	$scope.selectedText = "";
+	$scope.percentage = 0;
 	
+	// Get Background Page to get selectedText from it's scope
 	let bgPage = chrome.extension.getBackgroundPage();
 	let selectedText = bgPage.selectedText;
 	$scope.selectedText = selectedText;
-
-	if(selectedText.length > 0) {
-		alert(selectedText);
-	}
 
     $scope.$watch('todoStorage.data', function() {
         $scope.todoList = $scope.todoStorage.data;
@@ -26,10 +25,9 @@ angular.module('app').controller('todoCtrl', function ($scope, todoStorage) {
         $scope.newContent = '';
     }
 
-	$scope.find = function() {
-        todoStorage.find($scope.selectedText);
-    }
-	
+	$scope.find = function(todo) {
+        todoStorage.find(selectedText);
+    }	
 	
     $scope.remove = function(todo) {
         todoStorage.remove(todo);

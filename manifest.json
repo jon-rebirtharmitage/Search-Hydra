@@ -1,16 +1,30 @@
 {
   "manifest_version": 2,
-  "name"            : "ng-Todo",
-  "description"     : "Minimal todo app for minimalist",
-  "short_name"      : "ng-Todo",
+  "name"            : "HydraSearch",
+  "description"     : "An extension to quickly determine document match to selected terms.",
+  "short_name"      : "HydraSearch",
   "version"         : "0.1",
   "browser_action": {
     "default_popup": "index.html",
-    "default_icon" : "images/logo.png"
+    "default_icon" : "images/hydra.png"
+  },
+"content_scripts": [
+    {
+      "matches":["<all_urls>"],
+      "js": [
+        "app/content.js", "app/todoStorage.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": ["app/background.js"]
   },
   "permissions": [
     "debugger",
-    "storage"
+	"tabs",
+    "storage",
+	"http://*/*",
+	"https://*/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'"
 }
